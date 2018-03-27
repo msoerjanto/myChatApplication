@@ -72,6 +72,9 @@ public class ChatClient {
 		in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
 		out = new PrintWriter(soc.getOutputStream(), true);
 		
+		//send message to indicate that client process is connecting
+		out.println("CLIENT");
+		
 		while(true) {
 			//get server message to determine data flow
 			String str = in.readLine();
@@ -97,7 +100,12 @@ public class ChatClient {
 				textField.setEditable(true);
 				nameLabel.setText("You are logged in as: " + str.substring(12));
 				
-			}else {
+			}else if(str.equals("Press Enter to Continue..."))
+			{
+				
+			}
+			else 
+			{
 				/*	if the message received is none of the above, then it is
 					a message from another client, thus we display in our 
 					chatArea
