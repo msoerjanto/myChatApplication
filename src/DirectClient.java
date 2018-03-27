@@ -87,12 +87,15 @@ public class DirectClient extends Thread{
 							}
 						}
 					}else if(message.equals("/leave")) {
-						System.out.println("Leaving room " + currRoom.getName());
+						for(PrintWriter writer : currRoom.getPw())
+						{
+							writer.println("User has left chat: " + this.name);
+						}
 						this.currRoom.removeParticipant(this.name);
 						this.currRoom = null;
 					}else if(message.equals("/quit")){
 						out.println("BYE");
-						break;
+						this.socket.close();
 					}
 				}else {
 					//send message to all participants of room
