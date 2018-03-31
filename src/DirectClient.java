@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DirectClient extends Thread{
@@ -13,7 +14,8 @@ public class DirectClient extends Thread{
 	PrintWriter out;																	//the client output stream, where server writes output to client
 	String name;																		//username of corresponding client
 	ChatRoom currRoom;																	//chat room user is associated with
-			
+	
+	
 	public DirectClient(Socket socket) throws IOException{ //constructor simply links the thread's socket to the client's socket
 		this.socket = socket;
 	}
@@ -39,6 +41,7 @@ public class DirectClient extends Thread{
 					return;
 				if(!ChatServer.userNames.contains(name)) {
 					//checks if the name is taken, if its not add it
+					ChatServer.printWriters.add(out);
 					ChatServer.userNames.add(name);
 					break;
 				}
@@ -47,7 +50,13 @@ public class DirectClient extends Thread{
 				count++;
 			}
 			//after this point user would have inputed a valid name
-			out.println("Welcome " + name + "!");
+			out.println("Welcome " + name + "!\n\r"
+					+ "Here are the list of options:\n\r\n"
+					+ "\t/rooms                         : displays the list of active rooms\n\r"
+					+ "\t/join roomName                 : joins the room called roomName or creates it if it does not exist\n\r"
+					+ "\t/w userName messageContent     : sends a private message to user userName with message messageContent\n\r"
+					+ "\t/leave                         : leave a chat room\n\r"
+					+ "\t/quit                          : disconnects from the server\n\r");
 			
 			while(true) {
 				String message = in.readLine();
@@ -66,6 +75,7 @@ public class DirectClient extends Thread{
 								ChatRoom temp = entry.getValue();
 								out.println(rname + "(" + temp.getNumParticipant() + ")");
 							}
+							out.println("ENDOFLIST");
 						}
 					}else if(message.startsWith("/join")) {
 						if(message.length() < 7 || message.charAt(5) != ' ')
@@ -87,15 +97,42 @@ public class DirectClient extends Thread{
 							}
 						}
 					}else if(message.equals("/leave")) {
+						if(currRoom == null) {
+							out.println("You are not in a room");
+							continue;
+						}
+						
 						for(PrintWriter writer : currRoom.getPw())
 						{
 							writer.println("User has left chat: " + this.name);
 						}
 						this.currRoom.removeParticipant(this.name);
 						this.currRoom = null;
+					}else if(message.startsWith("/w ")){
+						int i = 3;
+						while(i < message.length() && message.charAt(i) != ' ') {
+							i++;
+						}
+						//get the username for our private chat
+						String wArg = message.substring(3,i);
+	
+						//get the id of the user
+						int sendToIndex = ChatServer.userNames.indexOf(wArg);
+						
+						if(sendToIndex == -1) {
+							out.println("The user " + wArg + " does not exist");
+						}else {
+							//we create a private connection for the two users
+							System.out.println("Private chat with " + wArg);
+							String m_message = (i + 1 <= message.length()) ? message.substring(i+1) : "";
+							System.out.println("Message: " + m_message);
+							PrintWriter writeTo = ChatServer.printWriters.get(sendToIndex);
+							writeTo.println("(" + this.name + ")" + m_message);
+						}
 					}else if(message.equals("/quit")){
 						out.println("BYE");
 						this.socket.close();
+						break;
 					}
 				}else {
 					//send message to all participants of room
@@ -107,6 +144,8 @@ public class DirectClient extends Thread{
 						}
 					}
 				}
+				//flush the input stream
+	
 			}
 			
 		}catch(Exception e) {

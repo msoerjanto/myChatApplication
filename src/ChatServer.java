@@ -24,26 +24,26 @@ public class ChatServer {
 		System.out.println("Waiting for clients...");
 				
 				//initialize our server socket
-				ServerSocket ss = new ServerSocket(9806);
+				ServerSocket ss = new ServerSocket(9806	);
 				while(true) {
 					Socket soc = ss.accept();
 					System.out.println("Connection Established");
 					BufferedReader check = new BufferedReader(new InputStreamReader(soc.getInputStream()));
 					PrintWriter test = new PrintWriter(soc.getOutputStream(), true);
 					
-					test.println("Press Enter to Continue...");
-					String mode = check.readLine();
+//					test.println("Press Enter to Continue...");
+//					String mode = check.readLine();
 					
-					if(mode.equals("CLIENT")) {
-						System.out.println("Used client mode");
-						ConversationHandler handler = new ConversationHandler(soc);
-						handler.start();
-					}else
-					{
-						System.out.println("Used non-client mode");
+//					if(mode.equals("CLIENT")) {
+//						System.out.println("Used client mode");
+//						ConversationHandler handler = new ConversationHandler(soc);
+//						handler.start();
+//					}else
+//					{
+						//System.out.println("Used non-client mode");
 						DirectClient handler = new DirectClient(soc);
 						handler.start();
-					}
+//					}
 				}
 			}
 }
