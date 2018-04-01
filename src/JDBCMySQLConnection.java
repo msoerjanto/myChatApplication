@@ -8,7 +8,7 @@ public class JDBCMySQLConnection {
 		private static JDBCMySQLConnection instance = new JDBCMySQLConnection();
 		public static final String URL = "jdbc:mysql://18.222.43.173:3306/mychat";
 		public static final String USER = "root";
-		public static final String PASSWORD = "";
+		public static final String PASSWORD = "soto1608";
 		public static final String DRIVER_CLASS = "com.mysql.jdbc.Driver"; 
 		
 		//private constructor
