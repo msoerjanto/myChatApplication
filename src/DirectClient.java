@@ -261,6 +261,8 @@ public class DirectClient extends Thread{
 					out.println("Create your password: ");
 					String password = in.readLine();
 					createUser(name, password);
+					ChatServer.printWriters.put(name, out);
+					ChatServer.activeUsers.put(name, getUser(name));
 					break;
 				}
 				
@@ -301,6 +303,11 @@ public class DirectClient extends Thread{
 						handleList();
 					}else if(message.equals("/quit")){
 						out.println("BYE");
+						ChatServer.activeUsers.remove(this.name);
+						ChatServer.printWriters.remove(this.name);
+						if(this.currRoom != null) {
+							handleLeave();
+						}
 						this.socket.close();
 						break;
 					}
