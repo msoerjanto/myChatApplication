@@ -20,6 +20,11 @@ public class ChatRoom {
 		int index = participants.indexOf(pName);
 		participants.remove(index);
 		printWriters.remove(index);
+		if(participants.isEmpty())
+		{
+			//remove this chat room from list of active rooms
+			ChatServer.activeRooms.remove(this.getName());
+		}
 	}
 	public ArrayList<PrintWriter> getPw(){
 		return printWriters;

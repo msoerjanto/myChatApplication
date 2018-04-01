@@ -11,14 +11,18 @@ import java.util.Map;
 public class ChatServer {
 	
 	//mock arrayList that contains taken userNames
-	static ArrayList<String> userNames = new ArrayList<String>();
+	//static ArrayList<String> userNames = new ArrayList<String>();
+	
+	//map of active users
+	static HashMap<String,User> activeUsers = new HashMap<String, User>();
 	
 	/*contains all the printWriters corresponding to all users in chat
 	 we need this since we want sent messages to be displayed in the
 	 textArea of all participating users */
-	static ArrayList<PrintWriter> printWriters = new ArrayList<PrintWriter>();
+	static HashMap<String, PrintWriter> printWriters = new HashMap<String, PrintWriter>();
 	
 	static HashMap<String, ChatRoom> activeRooms = new HashMap<String, ChatRoom>();
+	
 	
 	public static void main(String[] args) throws Exception{
 		System.out.println("Waiting for clients...");
@@ -28,8 +32,8 @@ public class ChatServer {
 				while(true) {
 					Socket soc = ss.accept();
 					System.out.println("Connection Established");
-					BufferedReader check = new BufferedReader(new InputStreamReader(soc.getInputStream()));
-					PrintWriter test = new PrintWriter(soc.getOutputStream(), true);
+//					BufferedReader check = new BufferedReader(new InputStreamReader(soc.getInputStream()));
+//					PrintWriter test = new PrintWriter(soc.getOutputStream(), true);
 					
 //					test.println("Press Enter to Continue...");
 //					String mode = check.readLine();
