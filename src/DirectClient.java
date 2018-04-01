@@ -138,13 +138,15 @@ public class DirectClient extends Thread{
 		{
 			out.println("Invalid option argument!");
 		}else {
-			System.out.println("Join option selected");
 			String rname = message.substring(6);
 			if(ChatServer.activeRooms.containsKey(rname)) {
 				System.out.println("Joining room " + rname);
 				out.println("Joining Room " + rname);
 				ChatServer.activeRooms.get(rname).addParticipant(this.name, out);
 				this.currRoom = ChatServer.activeRooms.get(rname);
+				for(PrintWriter mout : this.currRoom.getPw()) {
+					mout.println(this.name + " has joined the chat!");
+				}
 			}else {
 				System.out.println("New room " + rname + " created");
 				out.println("Creating room " + rname);
