@@ -66,3 +66,4 @@ An example showing a user logging out
 - I spent a lot of time experimenting with other frameworks but they were not used because it was not feasible with regards to communicating with telnet. These include:
     - using node.js and socket.io with a web client
     - using php server with android client
+- This server is not scalable, primarily due to the centralized nature of the server (only running in one machine) and that the active rooms and users are stored in memory instead of the database. The latter was omitted because I was running out of time.
