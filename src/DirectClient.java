@@ -317,9 +317,11 @@ public class DirectClient extends Thread{
 					//send message to all participants of room
 					if(this.currRoom != null) {
 						String roomName = currRoom.getName();
-						for(PrintWriter writer : currRoom.getPw())
-						{
-							writer.println("(" + roomName + ") " + name + ": " + message);
+						if(!message.equals("")) {
+							for(PrintWriter writer : currRoom.getPw())
+							{
+								writer.println("(" + roomName + ") " + name + ": " + message);
+							}
 						}
 					}
 				}
