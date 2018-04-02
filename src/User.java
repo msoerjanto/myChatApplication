@@ -4,6 +4,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/*
+ 	This class represents a user, it is redundant for the current implementation but
+ 	may be required or convenient to have when we want to add more user metadata
+ */
+
 public class User {
 	private String username;
 	private int id;

@@ -26,7 +26,10 @@ public class DirectClient extends Thread{
 		this.socket = socket;
 	}
 	
-	//mysql functions
+	/***********************************************************************
+	 * 				MySQL Methods
+	 ***********************************************************************/
+	//this method inserts a user into the database
 	public void createUser(String username, String password) {
 		int rs = 0;
 		Connection connection = null;
@@ -51,6 +54,8 @@ public class DirectClient extends Thread{
 		}
 	}
 	
+	//this method authenticates a user login by grabbing the password from the database
+	//and comparing it to the user input
 	public boolean authenticateUser(String username, String password) {
 		ResultSet rs = null;
 		Connection connection = null;
@@ -88,6 +93,7 @@ public class DirectClient extends Thread{
 		return false;
 	}
 	
+	//this method searches the database for the specified username and returns a User object if found else null
 	public User getUser(String username) {
 		ResultSet rs = null;
 		Connection connection = null;
@@ -119,6 +125,10 @@ public class DirectClient extends Thread{
 		return user;
 	}
 	
+	/***************************************
+	 *			Option handlers 
+	 ***************************************/
+	//this method handles the /rooms option
 	public void handleRooms() {
 		System.out.println("room option selected");
 		if(ChatServer.activeRooms.isEmpty()) {
@@ -133,6 +143,7 @@ public class DirectClient extends Thread{
 		}
 	}
 	
+	//this method handles the /join option
 	public void handleJoin(String message) {
 		if(message.length() < 7 || message.charAt(5) != ' ')
 		{
@@ -156,6 +167,7 @@ public class DirectClient extends Thread{
 		}
 	}
 	
+	//this method handles the /leave option
 	public void handleLeave() {
 		if(currRoom == null) {
 			out.println("You are not in a room");
@@ -170,6 +182,7 @@ public class DirectClient extends Thread{
 		this.currRoom = null;
 	}
 	
+	//this method handles the /w option
 	public void handleWhisper(String message)
 	{
 		int i = 3;
@@ -195,6 +208,7 @@ public class DirectClient extends Thread{
 		}
 	}
 	
+	//this method handles the /list option
 	public void handleList() {
 		if(this.currRoom == null) {
 			out.println("You are not in a room");
@@ -206,6 +220,7 @@ public class DirectClient extends Thread{
 		}
 	}
 	
+	//this method prints out the help menu
 	public void handleHelp() {
 		out.println("Here are the list of options:\n\r\n"
 				+ "\t/rooms                         : displays the list of active rooms\n\r"
@@ -216,15 +231,16 @@ public class DirectClient extends Thread{
 				+ "\t/help                          : displays this list of options");
 	}
 	
-			
+	//the thread's task method
 	public void run() {
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));	//initialize the value for in now that we have the socket available
 			out = new PrintWriter(socket.getOutputStream(), true);						//initialize the value for out now that we have the socket available
 			
-			//int count = 0;																//flag for user name input validation
+			//This while loop handles user login
 			while(true) {
 				out.println("Welcome to GungHo Test Chat Server!\n\rLogin name?");
+				
 				//get the client name input
 				name = in.readLine();
 				
@@ -255,6 +271,7 @@ public class DirectClient extends Thread{
 					break;
 				}else {
 					//it doesnt exist, create entry in database
+					
 					//first check if it is valid
 					if(name.length() < 5)
 					{
@@ -270,6 +287,7 @@ public class DirectClient extends Thread{
 						continue;
 					}
 					
+					//create a user
 					out.println("Creating user " + name);
 					out.println("Create your password: ");
 					String password = in.readLine();
@@ -279,22 +297,13 @@ public class DirectClient extends Thread{
 					break;
 				}
 				
-				
-//				if(!ChatServer.activeUsers.containsKey(name)) {
-//					//checks if the name is taken, if its not add it
-//					ChatServer.printWriters.put(name, out);
-//					ChatServer.activeUsers.put(name, user);
-//					break;
-//				}
-				//if the name exists we enter the count > 0 block which
-				// lets the client process know that the name is taken
-				
-//				count++;
 			}
+			
 			//after this point user would have inputed a valid name
 			out.println("Welcome " + name + "!\n\r");
 			handleHelp();
 			
+			//this while loop handles all server interactions
 			while(true) {
 				String message = in.readLine();
 				if(message == null)return;

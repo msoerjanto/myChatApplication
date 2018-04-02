@@ -1,6 +1,12 @@
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+/*
+  	This class represents a room object
+  	It stores the participants of the room as well as their corresponding printWriters
+  	so that we can easily send group messages.
+ */
+
 public class ChatRoom {
 	String roomName;
 	private ArrayList<String> participants = new ArrayList<String>();
