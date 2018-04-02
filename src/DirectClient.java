@@ -233,6 +233,17 @@ public class DirectClient extends Thread{
 				+ "\t/help                          : displays this list of options");
 	}
 	
+	public void handleQuit() throws Exception{
+		out.println("BYE");
+		ChatServer.activeUsers.remove(this.name);
+		ChatServer.printWriters.remove(this.name);
+		if(this.currRoom != null) {
+			handleLeave();
+		}
+		this.socket.close();
+		
+	}
+	
 	//the thread's task method
 	public void run() {
 		try {
@@ -314,7 +325,7 @@ public class DirectClient extends Thread{
 			//this while loop handles all server interactions
 			while(true) {
 				String message = in.readLine();
-				if(message == null)return;
+				if(message == null)break;
 				
 				//send the message to all participating users
 				if(message.startsWith("/")) {
@@ -332,13 +343,6 @@ public class DirectClient extends Thread{
 					}else if(message.equals("/list")) {
 						handleList();
 					}else if(message.equals("/quit")){
-						out.println("BYE");
-						ChatServer.activeUsers.remove(this.name);
-						ChatServer.printWriters.remove(this.name);
-						if(this.currRoom != null) {
-							handleLeave();
-						}
-						this.socket.close();
 						break;
 					}
 				}else {
@@ -353,9 +357,8 @@ public class DirectClient extends Thread{
 						}
 					}
 				}
-				
 			}
-			
+			handleQuit();
 		}catch(Exception e) {
 			System.out.println(e);
 		}
