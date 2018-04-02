@@ -150,7 +150,9 @@ public class DirectClient extends Thread{
 			out.println("Invalid option argument!");
 		}else {
 			String rname = message.substring(6);
-			if(ChatServer.activeRooms.containsKey(rname)) {
+			if(this.currRoom != null) {
+				out.println("You are currently in a room, please leave first before joining a new room");
+			}else if(ChatServer.activeRooms.containsKey(rname)) {
 				System.out.println("Joining room " + rname);
 				out.println("Joining Room " + rname);
 				ChatServer.activeRooms.get(rname).addParticipant(this.name, out);
