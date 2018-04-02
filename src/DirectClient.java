@@ -250,6 +250,12 @@ public class DirectClient extends Thread{
 				//check to see if the username exists in the database
 				if((user = getUser(name)) != null) {
 					//the user exists, so now we authenticate
+					//first check if the user is logged in in another machine
+					if(ChatServer.activeUsers.containsKey(name)) {
+						out.println("User is logged in already");
+						continue;
+					}
+					
 					out.println("Hi again " + name);
 					boolean notAuthenticated = true;
 					String password;
