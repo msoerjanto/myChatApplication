@@ -31,6 +31,9 @@ Since I used java.net sockets which are essentially bare TCP sockets we can dire
 ### Interacting with the Server
 1. Upon connecting to the server users will be prompted to login. Upon some string input the behavior of the server is as follows: if the user does not exist , then it will create that user on the spot and ask for a password; if the user exists it will ask for the user password.
 
+![Initial server prompt](/samples/initial.png)
+Format: ![Alt Text](url)
+
 2. Once the user is logged in he/she will see a menu with available options which can be accessed at any time by entering '/help'
 
 3. The user can then view available rooms via '/rooms' option, send private messages to online users via '/w username message'
