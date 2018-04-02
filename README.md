@@ -19,7 +19,7 @@ This repository contains my implementation of a chat server.
 - MySQL
 
 ### Connecting to the Server:
-I have decided to deploy my server in an aws ec2 ubuntu virtual machine. The following are the required information to connect to the server.
+I have decided to deploy my server in an AWS EC2 ubuntu virtual machine. The following are the required information to connect to the server.
 
 IP address: 18.222.43.173
 Port number: 9806
@@ -35,7 +35,7 @@ Since I used java.net sockets which are essentially bare TCP sockets we can dire
 
 3. The user can then view available rooms via '/rooms' option, send private messages to online users via '/w username message'
 
-4. The user can also join or create rooms via the '/join roomName' option. Note that this command creates a room if the specified roomName does not exist.
+4. The user can also join or create rooms via the '/join roomName' option. Note that this command creates a room if the specified roomName does not exist. Also rooms will be destoryed if there are no participants and a user can only participate in a single room at a given time, thus the user will need to leave a room before joining a new one. It is definitely possible to participate in multiple rooms but I decided to stick to this simpler implementation for now.
 
 5. Once in a room, the user can then talk to other participants in the room, view participants via '/list' or leave via the '/leave' option
   
