@@ -26,7 +26,7 @@ Port number: 9806
 
 Since I used java.net sockets which are essentially bare TCP sockets we can directly interact with the server with telnet as follows:
 
-  telnet 18.222.43.173 9806
+  _telnet 18.222.43.173 9806_
   
 ### Interacting with the Server
 1. Upon connecting to the server users will be prompted to login. Upon some string input the behavior of the server is as follows: if the user does not exist , then it will create that user on the spot and ask for a password; if the user exists it will ask for the user password.
