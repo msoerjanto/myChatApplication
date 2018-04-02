@@ -187,9 +187,11 @@ public class DirectClient extends Thread{
 			//we create a private connection for the two users
 			System.out.println("Private chat with " + wArg);
 			String m_message = (i + 1 <= message.length()) ? message.substring(i+1) : "";
-			System.out.println("Message: " + m_message);
-			PrintWriter writeTo = ChatServer.printWriters.get(wArg);
-			writeTo.println("(" + this.name + ")" + m_message);
+			if(m_message.length() > 0) {
+				System.out.println("Message: " + m_message);
+				PrintWriter writeTo = ChatServer.printWriters.get(wArg);
+				writeTo.println("(" + this.name + ")" + m_message);
+			}
 		}
 	}
 	
@@ -222,12 +224,6 @@ public class DirectClient extends Thread{
 			
 			//int count = 0;																//flag for user name input validation
 			while(true) {
-//				if(count > 0) {
-//					out.println("Sorry, Name taken.");
-//				}else {
-//					//count initially 0 so always goes here first
-//					out.println("Welcome to GungHo Test Chat Server!\n\rLogin name?");
-//				}
 				out.println("Welcome to GungHo Test Chat Server!\n\rLogin name?");
 				//get the client name input
 				name = in.readLine();
@@ -259,6 +255,21 @@ public class DirectClient extends Thread{
 					break;
 				}else {
 					//it doesnt exist, create entry in database
+					//first check if it is valid
+					if(name.length() < 5)
+					{
+						out.println("Please enter a username that is at least 5 characters long...");
+						continue;
+					}else if(name.length() > 200) {
+						out.println("Please enter a username that is at most 200 characters long...");
+						continue;
+					}
+					else if(name.contains(" "))
+					{
+						out.println("Invalid username! No space is allowed in username");
+						continue;
+					}
+					
 					out.println("Creating user " + name);
 					out.println("Create your password: ");
 					String password = in.readLine();
