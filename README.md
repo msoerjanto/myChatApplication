@@ -32,17 +32,35 @@ Since I used java.net sockets which are essentially bare TCP sockets we can dire
 1. Upon connecting to the server users will be prompted to login. Upon some string input the behavior of the server is as follows: if the user does not exist , then it will create that user on the spot and ask for a password; if the user exists it will ask for the user password.
 
 ![Initial server prompt](/samples/initial.png)
-Format: ![Alt Text](url)
+The above shows the initial login prompt
+
+![Signing up](/samples/register.png)
+The above shows a user registering to the server (since no user with the specified name exists)
+
+![Logging back in](/samples/login.png)
+The above shows a user logging back in (since a user previously specified the given name)
 
 2. Once the user is logged in he/she will see a menu with available options which can be accessed at any time by entering '/help'
 
+![Options Menu](/samples/menu.png)
+The above shows the menu shown after a user has successfully logged in
+
 3. The user can then view available rooms via '/rooms' option, send private messages to online users via '/w username message'
+
+![Private chat example](/samples/whisper.png)
+An example of a user using the private chat feature
 
 4. The user can also join or create rooms via the '/join roomName' option. Note that this command creates a room if the specified roomName does not exist. Also rooms will be destoryed if there are no participants and a user can only participate in a single room at a given time, thus the user will need to leave a room before joining a new one. It is definitely possible to participate in multiple rooms but I decided to stick to this simpler implementation for now.
 
 5. Once in a room, the user can then talk to other participants in the room, view participants via '/list' or leave via the '/leave' option
+
+![Group chat example](/samples/group.png)
+A group chat example
   
 6. Finally the user may log out via the '/quit' command 
+
+![Quit example](/samples/quit.png)
+An example showing a user logging out
 
 ### Additional notes:
 - I spent a lot of time experimenting with other frameworks but they were not used because it was not feasible with regards to communicating with telnet. These include:
